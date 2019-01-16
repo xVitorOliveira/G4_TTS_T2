@@ -1,86 +1,60 @@
-/*function getText(t) {
-	var string = "";
-  var childs;
-  
-  if(t.hasChildNodes()) {
-  	childs = t.childNodes;
-    
-    for(var i = 0, l = childs.length; i < l; ++i) {
-      string += getText(childs[i]);
-    }
-  }
+var pTab = document.querySelectorAll("body *, a, img");
+var lastElmt = null;
 
-  else {
-    alert(t.innerText);
-    string += t.textContent;
-  }
+function getTextParent(elmt) {
+	var parent = elmt.parentNode;
+	var childs;
 
-  return string;
-}*/
+	while(parent.tagName && parent.tagName.toLowerCase() !== 'body' && parent!== document) {
+		childs = parent.childNodes;
 
-
-/*var pTab = document.querySelectorAll("*");
-var msg;
-
-for (var i = 0, l = pTab.length; i < l; ++i) {
-	pTab[i].addEventListener("mouseover", function() {
-    msg = new SpeechSynthesisUtterance(this.textContent);
-    window.speechSynthesis.speak(msg);
-  }, false);
-}*/
-
-var pTab = document.querySelectorAll("body > *");
-var msg;
-var relatedTarget;
-
-function hasTextChild(elmt) {
-	var childs = elmt.childNodes;
-	for(var i = 0, l = childs.length; i < l; ++ i) {
-		if (childs[i].nodeType === Node.TEXT_NODE) return true;
+		for (var i = 0; i < childs.length; i++) {
+			if(childs[i].nodeType === Node.TEXT_NODE && childs[i].textContent !== "") {
+				return getTextParent(parent);
+			}
+		}
 	}
-
-	return false;
-}
-
-function isSpecial(elmt) {
-	return this.tagName.toLowerCase() === "a" || this.tagName.toLowerCase() === "img";
+	return elmt;
 }
 
 for (var i = 0, l = pTab.length; i < l; ++i) {
 	pTab[i].addEventListener("mouseover", function(event) {
-		
-		relatedTarget = event.relatedTarget;
+		var accept = false;
+		var elmt = null;
+		var msg = "";
 
-	    while (relatedTarget != pTab[i] && relatedTarget.nodeName != 'BODY' && relatedTarget != document) {
-	        relatedTarget = relatedTarget.parentNode;
-	    }
+		if( this.tagName.toLowerCase() === 'a' || this.tagName.toLowerCase() === 'img') {
+			elmt = this;
+			accept = true;
+			msg = this.title !== null && this.title !== "" ? this.title + ". " : "";
+			msg += this.href !== null ? "Lien vers " + this.href : "";
+		}
 
-		if (relatedTarget != pTab[i] && (hasTextChild(this) || isSpecial(this))) {
-			
-			console.log(this.tagName);
-			console.log('yeah');
-			this.style.border = "solid rgb(151, 187, 244) 3px";
-			this.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
-
-			event.stopPropagation();
-
-			if (this.tagName.toLowerCase() === "a" || this.tagName.toLowerCase() === "img") {
-				msg = this.title !== null ? this.title + ". " : "";
-				msg += this.href !== null ? "Lien vers " + this.href : "";
+		else {
+			elmt = getTextParent(this);
+			if (elmt.textContent !== "" && elmt !== lastElmt) {
+				accept = true;
+				msg = elmt.textContent;
 			}
-
-			else {
-				msg = this.textContent;
+			else if(elmt === lastElmt) {
+				elmt.style.border = "solid rgb(151, 187, 244) 3px";
+	    		elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
 			}
+		}
 
-			window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+		if(accept) {
+			elmt.style.border = "solid rgb(151, 187, 244) 3px";
+	    	elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
+	    	//console.log(msg);
+	    	window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+	    	lastElmt = elmt;
+
+	    	event.stopPropagation();
 		}
 	}, false);
 
 	pTab[i].addEventListener("mouseout", function() {
-		if (true) {
-			this.style.border = "initial";
-			this.style.boxShadow = "initial";
-		}
-	}, false);
+		this.style.border = "initial";
+		this.style.boxShadow = "initial";
+	}, true);
 }
