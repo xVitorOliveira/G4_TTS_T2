@@ -1,5 +1,7 @@
 var pTab = document.querySelectorAll("body *, a, img");
 var lastElmt = null;
+var speechInstance = new SpeechSynthesisUtterance("");
+var speaker = window.speechSynthesis;
 
 function getTextParent(elmt) {
 	var parent = elmt.parentNode;
@@ -36,25 +38,24 @@ for (var i = 0, l = pTab.length; i < l; ++i) {
 				accept = true;
 				msg = elmt.textContent;
 			}
-			else if(elmt === lastElmt) {
-				elmt.style.border = "solid rgb(151, 187, 244) 3px";
-	    		elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
-			}
 		}
 
 		if(accept) {
+			speaker.cancel(speechInstance);
+
+
+
 			elmt.style.border = "solid rgb(151, 187, 244) 3px";
 	    	elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
-	    	//console.log(msg);
-	    	window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+
+	    	console.log("msg : " + msg);
+
+	    	speechInstance = new SpeechSynthesisUtterance(msg);
+	    	speaker.speak(speechInstance);
+
 	    	lastElmt = elmt;
 
 	    	event.stopPropagation();
 		}
 	}, false);
-
-	pTab[i].addEventListener("mouseout", function() {
-		this.style.border = "initial";
-		this.style.boxShadow = "initial";
-	}, true);
 }
