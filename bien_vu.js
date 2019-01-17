@@ -1,61 +1,67 @@
-    var tabTTS = document.querySelectorAll("body *, a, img");
-    var lastElmt;
-    var speechInstance;
-    function getTextParent(elmt) {
-        var parent = elmt.parentNode;
-        var childs;
+var pTab = document.querySelectorAll("body *, a, img");
+var lastElmt = null;
+var speechInstance = new SpeechSynthesisUtterance("");
+var speaker = window.speechSynthesis;
 
-        while(parent.tagName && parent.tagName.toLowerCase() !== 'body' && parent!== document) {
-            childs = parent.childNodes;
+function getTextParent(elmt) {
+	var parent = elmt.parentNode;
+	var childs;
 
-            for (var i = 0; i < childs.length; i++) {
-                if(childs[i].nodeType === Node.TEXT_NODE && childs[i].textContent !== "") {
-                    return getTextParent(parent);
-                }
-            }
-        }
-        return elmt;
-    }
+	while(parent.tagName && parent.tagName.toLowerCase() !== 'body' && parent!== document) {
+		childs = parent.childNodes;
 
-    for (var i = 0, l = tabTTS.length; i < l; ++i) {
-        tabTTS[i].addEventListener("mouseover", function(event) {
-            var accept = false;
-            var elmt = null;
-            var msg = "";
+		for (var i = 0; i < childs.length; i++) {
+			if(childs[i].nodeType === Node.TEXT_NODE && childs[i].textContent !== "") {
+				return getTextParent(parent);
+			}
+		}
+	}
+	return elmt;
+}
 
-            if( this.tagName.toLowerCase() === 'a' || this.tagName.toLowerCase() === 'img') {
-                elmt = this;
-                accept = true;
-                msg = this.title !== null && this.title !== "" ? this.title + ". " : "";
-                msg += this.href !== null ? "Lien vers " + this.href : "";
-            }
+function reset() {
+	speaker.cancel();
+	if (lastElmt) {
+		lastElmt.style.border = 'initial';
+		lastElmt.style.boxShadow = 'initial';
+	}
+}
 
-            else {
-                elmt = getTextParent(this);
-                if (elmt.textContent !== "" && elmt !== lastElmt) {
-                    accept = true;
-                    msg = elmt.textContent;
-                }
-                else if(elmt === lastElmt) {
-                    elmt.style.border = "solid rgb(151, 187, 244) 3px";
-                    elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
-                }
-            }
+for (var i = 0, l = pTab.length; i < l; ++i) {
+	pTab[i].addEventListener("mouseover", function(event) {
+		var accept = false;
+		var elmt = null;
+		var msg = "";
 
-            if(accept) {
-                elmt.style.border = "solid rgb(151, 187, 244) 3px";
-                elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
-                //console.log(msg);
-                window.speechSynthesis.speak(speechInstance=new SpeechSynthesisUtterance(msg));
-                lastElmt = elmt;
+		if( this.tagName.toLowerCase() === 'a' || this.tagName.toLowerCase() === 'img') {
+			elmt = this;
+			accept = true;
+			msg = this.title !== null && this.title !== "" ? this.title + ". " : "";
+			msg += this.href !== null ? "Lien vers " + this.href : "";
+		}
 
-                event.stopPropagation();
-            }
-        }, false);
+		else {
+			elmt = getTextParent(this);
+			if (elmt.textContent !== "" && elmt !== lastElmt) {
+				accept = true;
+				msg = elmt.textContent;
+			}
+		}
 
-        tabTTS[i].addEventListener("mouseout", function() {
-            this.style.border = "initial";
-            this.style.boxShadow = "initial";
-            /*window.speechSynthesis.cancel(speechInstance);*/
-        }, true);
-    }
+		if(accept) {
+			reset();
+
+			elmt.style.border = "solid rgb(151, 187, 244) 3px";
+	    	elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
+
+	    	console.log("msg : " + msg);
+
+	    	speechInstance = new SpeechSynthesisUtterance(msg);
+	    	speaker.speak(speechInstance);
+
+	    	lastElmt = elmt;
+
+	    	event.stopPropagation();
+		}
+	}, false);
+}
