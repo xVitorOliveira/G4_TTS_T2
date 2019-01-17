@@ -44,6 +44,33 @@ function tts(elmt, msg) {
 	lastElmt = elmt;
 }
 
+for (var i = 0, l = pTab.length; i < l; ++i) {
+	pTab[i].addEventListener("mouseover", function(event) {
+		var accept = false;
+		var elmt = null;
+		var msg = "";
+
+		//Test si l'element est un lien ou une image
+		if( this.tagName.toLowerCase() === 'a' || this.tagName.toLowerCase() === 'img') {
+			elmt = this;
+			msg = (this.title && this.title !== null && this.title !== "") ? this.title + ". " : "";
+			console.log(this.href !== "");
+			msg += (this.href && this.href !== null && this.href !== "") ? "Lien vers " + this.href : "";
+			tts(elmt, msg);
+		}
+
+		//Test sur le parent le plus élevé contenant du texte
+		else {
+			elmt = getTextParent(this);
+			if (elmt.textContent !== "" && elmt !== lastElmt) {
+				msg = elmt.textContent;
+				tts(elmt, msg);
+			}
+		}
+
+		event.stopPropagation();
+	}, false);
+}
 
 document.onkeyup = function(e) {
     if (e.which == 17 && e.which == 18 && e.which == 70)
