@@ -30,18 +30,45 @@ function reset() {
 	}
 }
 
+//Réglage de la voix
+function getSpeechInstance(msg) {
+	var newSI = new SpeechSynthesisUtterance(msg);
+	newSI.volume = 1;
+	newSI.rate = 1.5;
+	return newSI;
+}
+
 //TextToSpeach du message passe en parametre
 function tts(elmt, msg) {
 	reset();
 
-	speechInstance = new SpeechSynthesisUtterance(msg);
-	speechInstance.volume = 1;
+	speechInstance = getSpeechInstance(msg);
 	speaker.speak(speechInstance);
 
 	elmt.style.border = "solid rgb(151, 187, 244) 3px";
 	elmt.style.boxShadow = "0 0 5px rgb(151, 187, 244)";
 
 	lastElmt = elmt;
+}
+
+//Si l'element contient un texte qui doit être lu, le message est envoye a la fonction tts
+function prepareForSpeak(elmt) {
+	msg = null;
+
+	//Test si l'element est un lien ou une image
+	if( elmt.tagName.toLowerCase() === 'a' ) msg = "Lien" + (elmt.href ? " vers " + elmt.href : "");
+	if( elmt.tagName.toLowerCase() === 'img' ) msg = "Image" + (elmt.alt ? " : " + elmt.alt : (elmt.title ? " : " + elmt.title : ""));
+	
+	if(msg) tts(elmt, msg);
+
+	//Test sur le parent le plus élevé contenant du texte
+	else {
+		elmt = getTextParent(elmt);
+		if (elmt.textContent !== "" && elmt !== lastElmt) {
+			msg = elmt.textContent;
+			tts(elmt, msg);
+		}
+	}
 }
 
 //Listener sur les éléments texte
@@ -51,23 +78,7 @@ for (var i = 0, l = pTab.length; i < l; ++i) {
 		var elmt = null;
 		var msg = "";
 
-		//Test si l'element est un lien ou une image
-		if( this.tagName.toLowerCase() === 'a' || this.tagName.toLowerCase() === 'img') {
-			elmt = this;
-			msg = (this.title && this.title !== null && this.title !== "") ? this.title + ". " : "";
-			console.log(this.href !== "");
-			msg += (this.href && this.href !== null && this.href !== "") ? "Lien vers " + this.href : "";
-			tts(elmt, msg);
-		}
-
-		//Test sur le parent le plus élevé contenant du texte
-		else {
-			elmt = getTextParent(this);
-			if (elmt.textContent !== "" && elmt !== lastElmt) {
-				msg = elmt.textContent;
-				tts(elmt, msg);
-			}
-		}
+		prepareForSpeak(this);
 
 		event.stopPropagation();
 	}, false);
