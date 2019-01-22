@@ -45,6 +45,7 @@ function tts(elmt, msg) {
 }
 
 <<<<<<< HEAD:tests2.js
+<<<<<<< HEAD:tests2.js
 //Listener sur les éléments texte
 for (var i = 0, l = pTab.length; i < l; ++i) {
 	pTab[i].addEventListener("mouseover", function(event) {
@@ -74,6 +75,8 @@ for (var i = 0, l = pTab.length; i < l; ++i) {
 	}, false);
 }
 =======
+=======
+>>>>>>> parent of 6d59a08... v3:bien_vu.js
 
 document.onkeyup = function(e) {
     if (e.which == 17 && e.which == 18 && e.which == 70)
