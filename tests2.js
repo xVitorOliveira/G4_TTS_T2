@@ -44,6 +44,7 @@ function tts(elmt, msg) {
 	lastElmt = elmt;
 }
 
+<<<<<<< HEAD:tests2.js
 //Listener sur les éléments texte
 for (var i = 0, l = pTab.length; i < l; ++i) {
 	pTab[i].addEventListener("mouseover", function(event) {
@@ -72,3 +73,56 @@ for (var i = 0, l = pTab.length; i < l; ++i) {
 		event.stopPropagation();
 	}, false);
 }
+=======
+
+document.onkeyup = function(e) {
+    if (e.which == 17 && e.which == 18 && e.which == 70)
+        readWithShortcuts("front");
+    else if (e.which == 17 && e.which == 18 && e.which == 74) 
+        readWithShortcuts("back");
+};
+
+function readWithShortcuts(mode){
+    if(speechInstance != null)
+        window.speechSynthesis.cancel(speechInstance);
+
+    if (i != 0 && mode == "back")   
+        i--;
+
+    var accept = false;
+    var elmt = null;
+    var msg = "";
+    //Test si l'element est un lien ou une image
+    if( pTab[i].tagName.toLowerCase() === 'a' || pTab[i].tagName.toLowerCase() === 'img') {
+        elmt = pTab[i];
+        msg = (pTab[i].title && pTab[i].title !== null && pTab[i].title !== "") ? pTab[i].title + ". " : "";
+        console.log(pTab[i].href !== "");
+        msg += (pTab[i].href && pTab[i].href !== null && pTab[i].href !== "") ? "Lien vers " + pTab[i].href : "";
+        tts(elmt, msg);
+    }
+    //Test sur le parent le plus élevé contenant du texte
+    else {
+        elmt = getTextParent(pTab[i]);
+        if (elmt.textContent !== "" && elmt !== lastElmt) {
+            msg = elmt.textContent;
+            tts(elmt, msg);
+        }
+    }
+    event.stopPropagation();
+    
+    if(mode == "front")
+        i++;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> parent of 6d59a08... v3:bien_vu.js
