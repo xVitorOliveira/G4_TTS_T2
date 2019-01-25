@@ -10,8 +10,8 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.mozilla.org/*"],
-      "js": ["bien_vu.js"]
+      "matches": ["*://*/*"],
+      "js": ["tests2.js"]
     }
   ]
 
