@@ -1,18 +1,22 @@
 {
+    "description": "Mr ROURRE Olivier, chef de projet au sein de l'Institut G4, sollicite G4 Corp dans le cadre d’un projet nécessitant une prestation de création d’une solution permettant l’accessibilité des sites web aux personnes en situation de handicap visuel ( aveugles et malvoyants ).",
+    "manifest_version": 2,
+    "name": "Bien Vu",
+    "version": "1.0",
+    "icons": {
+        "48": "g4_corp.png"
+    },
 
-  "description": "Mr ROURRE Olivier, chef de projet au sein de l'Institut G4, sollicite G4 Corp dans le cadre d’un projet nécessitant une prestation de création d’une solution permettant l’accessibilité des sites web aux personnes en situation de handicap visuel ( aveugles et malvoyants ).",
-  "manifest_version": 2,
-  "name": "Bien Vu",
-  "version": "1.0",
-  "icons": {
-    "48": "g4_corp.png"
-  },
+    "content_scripts": [
+        {
+          "matches": ["*://*.mozilla.org/*"],
+          "js": ["test2.js"]
+        }
+    ],
 
-  "content_scripts": [
-    {
-      "matches": ["*://*.mozilla.org/*"],
-      "js": ["bien_vu.js"]
+    "browser_action": {
+        "default_icon": "g4_corp.png",
+        "default_title": "BienVu",
+        "default_popup": "menu.html"
     }
-  ]
-
 }
