@@ -1,29 +1,36 @@
-var modeONOFF=true;
+var modeONOFF=1;
 var speedo=1;
 var voixo=1;
-
-console.log(modeONOFF);
-console.log(speedo);
-console.log(voixo);
-
-console.log(browser);
-
 
 var getting  = browser.storage.sync.get("onoff");
 var getting2 = browser.storage.sync.get("speed");
 var getting3 = browser.storage.sync.get("voix");
 
-console.log(getting);
-console.log(getting2);
-console.log(getting3);
-
 getting.then(onGot, onError);
 getting2.then(onGot, onError);
 getting3.then(onGot, onError);
 
-console.log(modeONOFF);
-console.log(speedo);
-console.log(voixo);
+function onError(error) {
+     console.log(error);
+}
+
+
+function onGot(item) {
+    console.log(item);
+    if (item.onoff){
+        modeONOFF = item.onoff;
+        console.log(modeONOFF);
+    }
+    if (item.speed){
+        speedo = item.speed;
+        console.log(speedo);
+    }
+    if (item.voix){
+        voixo = item.voix; 
+        console.log(voixo);
+    }
+}
+
 
 //Récupération du code source via l'élément body
 var body = document.querySelector("body");
@@ -189,28 +196,16 @@ function prepareShortCuts() {
 	}
 }
 
-function onError(error) {
-     console.log(error);
-}
 
-function onGot(item) {
-    if (item.onoff)
-        modeONOFF = item.onoff;
-    if (item.speed)
-        speedo = item.speed;
-    if (item.voix)
-        voixo = item.voix;
-}
-
-if(modeONOFF){
-    //Listener sur les éléments texte
-    for (var i = 0, l = elmtTab.length; i < l; ++i) {
-        elmtTab[i].addEventListener("mouseover", function(event) {
+//Listener sur les éléments texte
+for (var i = 0, l = elmtTab.length; i < l; ++i) {
+    elmtTab[i].addEventListener("mouseover", function(event) {
+        if(modeONOFF==1){
             elmtIndex = elmtTab.indexOf(this);
             prepareForSpeak(this);
             event.stopPropagation();
-        }, false);
-    }
+        }
+    }, false);
 }
 
 //Listener sur les touches enfoncées
