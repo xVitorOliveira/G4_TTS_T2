@@ -9,8 +9,8 @@
 
     "content_scripts": [
         {
-          "matches": ["*://*.mozilla.org/*"],
-          "js": ["test2.js"]
+          "matches": ["<all_urls>"],
+          "js": ["tests2.js"]
         }
     ],
 
@@ -18,5 +18,17 @@
         "default_icon": "g4_corp.png",
         "default_title": "BienVu",
         "default_popup": "menu.html"
-    }
+    },
+    
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "addon@lmao.com",
+        "strict_min_version": "42.0"
+      }
+    },
+    
+    "permissions": [
+        "notifications",
+        "activeTab"
+    ]
 }

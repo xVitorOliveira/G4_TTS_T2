@@ -10,15 +10,16 @@
     <h4><b>Welcome to Bienvu</b></h4>
     <form> 
         <div class="radio" style="padding-top: 5%;display:inline-block;">
-            <label for="on" ><input type="radio" id="on" name="onoff" value="on"><h6>On</h6></label>
-            <label for="off"><input type="radio" id="off" name="onoff" value="off"><h6>Off</h6></label>
+            <label for="on" ><input type="radio" id="on" name="onoff" value="true"><h6>On</h6></label>
+            <label for="off"><input type="radio" id="off" name="onoff" value="false"><h6>Off</h6></label>
         </div>
         <div>
-            <label for="speed"><input name="speed" style="width:50%;" type="range" min="1" max="2" step="0.1" class="slider" id="speed"><h6>Speech Speed</h6></label>
+            <label for="speed"><input name="speed" style="width:50%;" type="range" min="1" max="10" step="1" class="slider" id="speed"><h6>Speech Speed</h6></label>
         </div>
         <div class="radio">
-            <label for="man" ><input type="radio" id="man" name="voix" value="man"><h6>Man</h6></label>
-            <label for="woman"><input type="radio" id="woman" name="voix" value="woman"><h6>Woman</h6></label>
+            <label for="grave" ><input type="radio" id="grave" name="voix" value="0"><h6>Grave</h6></label>
+            <label for="neutre"><input type="radio" id="neutre" name="voix" value="1"><h6>Neutre</h6></label>
+            <label for="aigu"><input type="radio" id="aigu" name="voix" value="2"><h6>Aigu</h6></label>
         </div>
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
