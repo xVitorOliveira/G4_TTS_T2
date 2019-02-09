@@ -1,18 +1,29 @@
 var modeONOFF = true;
+var speedo = 1;
+var voixo = "man";
 
 function onError(error) {
   console.log(`Error: ${error}`);
 }
 
 function onGot(item) {
-  if (item.onoff) {
-    modeONOFF = item.onoff;
-  }
+    if (item.onoff)
+        modeONOFF = item.onoff;
+    if (item.speed)
+        speedo = item.speed;
+    if (item.voix)
+        voixo = item.voix;
 }
 
 var getting = browser.storage.sync.get("onoff");
+var getting2 = browser.storage.sync.get("speed");
+var getting3 = browser.storage.sync.get("voix");
 getting.then(onGot, onError);
+getting2.then(onGot, onError);
+getting3.then(onGot, onError);
 
+//speechSynthesisUtteranceInstance.rate = 1.5;
+//speechSynthesisUtteranceInstance.pitch = 1.5;    
 
 if(modeONOFF){
     var pTab = document.querySelectorAll("body *, a, img");
