@@ -1,29 +1,45 @@
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </head>
-  <body style="background-color:crimson; color: aliceblue; text-align: center; margin:5%; display: inline-block;">
-    <h4><b>Welcome to Bienvu</b></h4>
-   
-    <form> 
-        <div class="radio" style="padding-top: 5%;display:inline-block;">
-            <label for="on" ><input type="radio" id="on" name="onoff" checked value="1"><h6>On</h6></label>
-            <label for="off"><input type="radio" id="off" name="onoff" value="0"><h6>Off</h6></label>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="menu.css"/>
+</head>
+<body>
+    <div id="back">
+        <h4><b>WebSpeak</b></h4>
+        <div id="menu">
+            <h5>Instructions :</h5>
+            <p>Répéter : <span id="code">CTRL + ALT + H</span></p>
+            <p>Stop : <span id="code">CTRL + ALT + S</span></p>
+            <p>Bloc suivant : <span id="code">CTRL + ALT + J</span></p>
+            <p>Bloc précédant : <span id="code">CTRL + ALT + F</span></p>
+            <p>Suivre le lien : <span id="code">CTRL + ALT + ENTER</span></p>
+            <p>Survol ON/OFF : <span id="code">CTRL + ALT + M</span></p>
         </div>
-        <div>
-            <label for="speed"><input name="speed" style="width:50%;" type="range" min="1" max="10" step="1" class="slider" id="speed"><h6>Speech Speed</h6></label>
-        </div>
-        <div class="radio">
-            <label for="grave" ><input type="radio" id="grave" name="voix" value="0"><h6>Grave</h6></label>
-            <label for="neutre"><input type="radio" id="neutre" name="voix" checked value="1"><h6>Neutre</h6></label>
-            <label for="aigu"><input type="radio" id="aigu" name="voix" value="2"><h6>Aigu</h6></label>
-        </div>
-        <button class="btn btn-primary" type="submit">Save</button>
-    </form>
-    <script src="option.js"></script>
-  </body>
+        <details>
+            <summary>Paramètres</summary>
+            <p id="legend">Rechargez la page pour appliquer les modifications</p>
+            <form>
+                <div class="radio">
+                    <label for="on"> <input type="radio" id="1ONOFF" name="onoff" value="1"><h6>On</h6></label>
+                    <label for="off"><input type="radio" id="0ONOFF" name="onoff" value="0"><h6>Off</h6></label>
+                </div>
+                <div>
+                    <label for="speed"><input id="SPEED" type="range" name="speed" min="1" max="10" step="1" class="slider" id="speed"><h6>Vitesse</h6></label>
+                </div>
+                <div class="radio">
+                    <label for="grave" ><input type="radio" id="0VOIX" name="voix" value="0"><h6>Grave</h6></label>
+                    <label for="neutre"><input type="radio" id="1VOIX" name="voix" value="1"><h6>Neutre</h6></label>
+                    <label for="aigu"><input type="radio"   id="2VOIX" name="voix" value="2"><h6>Aigu</h6></label>
+                </div>
+                <button class="btn btn-primary" type="submit">Sauvegarder</button>
+            </form>
+        </details>
+    </div>
+    <script src="load_parameters.js"></script>
+</body>
 </html>
+

@@ -1,7 +1,5 @@
-var modeONOFF=1;
-var speedo=1;
-var voixo=1;
-
+var speedo=1,voixo=1,modeONOFF=1;
+//Get les parametres depuis le browser
 var getting  = browser.storage.sync.get("onoff");
 var getting2 = browser.storage.sync.get("speed");
 var getting3 = browser.storage.sync.get("voix");
@@ -14,7 +12,7 @@ function onError(error) {
      console.log(error);
 }
 
-
+//Prends les paremetres du browser et les attribue dans les variables speedo, voixo et modeONOFF. 
 function onGot(item) {
     console.log(item);
     if (item.onoff){
@@ -38,7 +36,7 @@ var body = document.querySelector("body");
 //Initialisation des variables qui réguleront la lecture
 var lastElmt = null;
 var elmtIndex;
-var keyBack = false, keyFront = false, keyStop = false, keyEnter = false, keyRepeat = false, keyAlt = false, keyCtrl = false;
+var keyBack = false, keyFront = false, keyStop = false, keyEnter = false, keyRepeat = false, keyAlt = false, keyCtrl = false, keyMute = false;
 
 //Initialisation de la voix
 var speechInstance = new SpeechSynthesisUtterance("");
@@ -98,7 +96,6 @@ function reset() {
 //Paramétrage de la voix de la voix
 function getSpeechInstance(msg) {
 	var newSI = new SpeechSynthesisUtterance(msg);
-	//newSI.volume = 1;
     newSI.pitch = voixo;
 	newSI.rate = speedo;
 	return newSI;
@@ -144,6 +141,7 @@ function toggleKeys(n, on) {
 		case 70 : keyBack 	= on; break;
 		case 72 : keyRepeat = on; break;
 		case 74 : keyFront 	= on; break;
+        case 77 : keyMute 	= on; break;
 		case 83 : keyStop 	= on; break;
 		default : return;
 	}
@@ -167,6 +165,7 @@ function readWithShortcuts(mode){
 		case "B" 	: elmtIndex --; prepareForSpeak(elmtTab[getIndex(elmtIndex, elmtTab.length)]); break;
 		case "F" 	: elmtIndex ++; prepareForSpeak(elmtTab[getIndex(elmtIndex, elmtTab.length)]); break;
 		case "R" 	: lastElmt = null; prepareForSpeak(elmtTab[getIndex(elmtIndex, elmtTab.length)]); break;
+        case "M" 	: modeONOFF == 0 ? modeONOFF = 1 : modeONOFF = 0; reset(); break;
 		case "E"	: if(elmtTab[getIndex(elmtIndex, elmtTab.length)].tagName === "A") { window.open(elmtTab[getIndex(elmtIndex, elmtTab.length)].href,'_blank'); } break;
 		default		: break;
 	}
@@ -193,6 +192,10 @@ function prepareShortCuts() {
 	else if (keyEnter) {
 		readWithShortcuts("E");
 		keyEnter = false;
+	}	
+    else if (keyMute) {
+		readWithShortcuts("M");
+		keyMute = false;
 	}
 }
 
@@ -210,9 +213,9 @@ for (var i = 0, l = elmtTab.length; i < l; ++i) {
 
 //Listener sur les touches enfoncées
 document.addEventListener("keydown", function(e) {
-	if(e.keyCode === 13 || e.keyCode === 17 || e.keyCode === 18 || e.keyCode === 70 || e.keyCode === 72 || e.keyCode === 74 || e.keyCode === 83) {
+	if(e.keyCode === 13 || e.keyCode === 17 || e.keyCode === 18 || e.keyCode === 70 || e.keyCode === 72 || e.keyCode === 74 || e.keyCode === 77 || e.keyCode === 83) {
 		toggleKeys(e.keyCode, true);
-		if(keyAlt && keyCtrl && (keyStop || keyRepeat || keyBack || keyFront || keyEnter)) {
+		if(keyAlt && keyCtrl && (keyStop || keyRepeat || keyBack || keyFront || keyEnter || keyMute)) {
 			prepareShortCuts();
 		}
 	}
@@ -220,7 +223,7 @@ document.addEventListener("keydown", function(e) {
 
 //Listener sur les touches qui ne sont plus enfoncées
 document.addEventListener("keyup", function(e) {
-	if(e.keyCode === 13 || e.keyCode === 17 || e.keyCode === 18 || e.keyCode === 70 || e.keyCode === 72 || e.keyCode === 74 || e.keyCode === 83) {
+	if(e.keyCode === 13 || e.keyCode === 17 || e.keyCode === 18 || e.keyCode === 70 || e.keyCode === 72 || e.keyCode === 74 || e.keyCode === 77 || e.keyCode === 83) {
 		toggleKeys(e.keyCode, false);
 	}
 }, false);

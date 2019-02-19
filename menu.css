@@ -1,0 +1,31 @@
+body {
+	min-width: 300px;
+	border-radius: 7px;
+	background-color: crimson;
+	color: aliceblue;
+	text-align: center;
+	padding: 5%;
+}
+
+#menu {
+	background: aliceblue;
+	color: crimson;
+	border-radius: 7px;
+	padding: 3% 0;
+}
+
+h5 {
+	margin-bottom: 7%;
+}
+
+details {
+	margin: 5% 0;
+}
+
+#legend {
+	font-style: italic;
+}
+
+#code {
+	font-weight: bold;
+}

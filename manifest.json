@@ -10,7 +10,7 @@
     "content_scripts": [
         {
           "matches": ["<all_urls>"],
-          "js": ["tests2.js"]
+          "js": ["main.js"]
         }
     ],
 
@@ -24,7 +24,7 @@
 
     "applications": {
         "gecko": {
-          "id": "addon@example.com"
+          "id": "bienvu@gmail.com"
         }
     }
 }
