@@ -1,7 +1,7 @@
 {
-    "description": "Mr ROURRE Olivier, chef de projet au sein de l'Institut G4, sollicite G4 Corp dans le cadre d’un projet nécessitant une prestation de création d’une solution permettant l’accessibilité des sites web aux personnes en situation de handicap visuel ( aveugles et malvoyants ).",
+    "description": "WebSpeak est une solution permettant l’accessibilité des sites web aux personnes en situation de handicap visuel ( aveugles et malvoyants ).",
     "manifest_version": 2,
-    "name": "Bien Vu",
+    "name": "WebSpeak",
     "version": "1.0",
     "icons": {
         "48": "g4_corp.png"
@@ -10,13 +10,13 @@
     "content_scripts": [
         {
           "matches": ["<all_urls>"],
-          "js": ["main.js"]
+          "js": ["main.js", "load_parameters.js"]
         }
     ],
 
     "browser_action": {
         "default_icon": "g4_corp.png",
-        "default_title": "BienVu",
+        "default_title": "WebSpeak",
         "default_popup": "menu.html"
     },
     
@@ -24,7 +24,7 @@
 
     "applications": {
         "gecko": {
-          "id": "bienvu@gmail.com"
+          "id": "WEBspeak.addon@gmail.com"
         }
     }
 }
